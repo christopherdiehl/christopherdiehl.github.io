@@ -71,9 +71,12 @@
 
 <p>For those who don&rsquo;t know CORS stands for Cross Origin Resource Sharing. It&rsquo;s essentially a mechanism for restricting access to a resource from a server of a different origin. Sounds straightforward right? In reality it&rsquo;s pretty complex, and I&rsquo;d recommend reading more about it on <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Mozilla&rsquo;s site</a> before reading the takeways.</p>
 
-<p>The key takeaways of CORS for an API developer are as follows:
-- CORS Pre-Flight is triggered on any requests with a <em>content-type</em> or <em>authorization</em> header
-- If you run into CORS Pre-Flight, an OPTIONS request will be sent to your API .</p>
+<p>The key takeaways of CORS for an API developer are as follows:</p>
+
+<ul>
+<li>CORS Pre-Flight is triggered on any requests with a <em>content-type</em> or <em>authorization</em> header</li>
+<li>If you run into CORS Pre-Flight, an OPTIONS request will be sent to your API .</li>
+</ul>
 
 <p>This means that using a Gorilla mux router in Golang, unless you specifically handle the OPTIONS request, you will get an error code. Most likely <code>405</code>.</p>
 
