@@ -18,7 +18,7 @@
       <pubDate>Sun, 24 Jun 2018 07:49:00 -0400</pubDate>
       
       <guid>https://christopherdiehl.github.io/posts/golang-brute-force-password-cracker/</guid>
-      <description>Golang Password Cracker Disclaimer All views and opinions expressed in this document are my own and not indicative of my employer&amp;rsquo;s viewpoints in any regard. Furthermore, this exercise is intended to demonstrate the need for more robust passwords internally. The created program should not be used for anything malicious.
+      <description>Golang Password Cracker Disclaimer All views and opinions expressed in this document are my own and not indicative of my employer&amp;rsquo;s viewpoints in any regard. Furthermore, this exercise is intended to demonstrate the need for more robust passwords. The created program should not be used for anything malicious.
 Password Security &amp;amp; Best Practices Krebs Take
 I&amp;rsquo;m sure we&amp;rsquo;ve all seen user accounts with shoddy passwords, to demonstrate how easy it is to gain access to these accounts let&amp;rsquo;s see if we can brute force their passwords.</description>
     </item>
