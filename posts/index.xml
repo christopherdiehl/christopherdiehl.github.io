@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Fri, 17 Aug 2018 14:16:20 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Nov 2018 09:57:27 -0500</lastBuildDate>
     
 	<atom:link href="https://christopherdiehl.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Issa Vibe</title>
+      <link>https://christopherdiehl.github.io/posts/issa-vibe/</link>
+      <pubDate>Fri, 09 Nov 2018 09:57:27 -0500</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/issa-vibe/</guid>
+      <description>Building a music suggesting webapp in barebones Go For some additional background, the team I work with has a weekly Talking Code where one member talks about something they&amp;rsquo;ve worked on and would like to share with the group. Given my frequent use of Golang outside of work, I decided to make a web application that would randomly suggest a song given a genre. I also wanted to use as few libraries as possible to hide any package magic.</description>
+    </item>
     
     <item>
       <title>Dynamically passing in ENV vars to Lambda functions created by Cloudformation</title>
