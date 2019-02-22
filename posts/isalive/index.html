@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-    <title>Categories | Christopher Diehl&#39;s blog</title>
-     <meta property='og:title' content='Categories - Christopher Diehl&#39;s blog'>
-<meta property='og:description' content=''>
-<meta property='og:url' content='https://christopherdiehl.github.io/categories/'>
+    <title>Isalive | Christopher Diehl&#39;s blog</title>
+     <meta property='og:title' content='Isalive - Christopher Diehl&#39;s blog'>
+<meta property='og:description' content='Building a HTTP monitoring cli appliclation with notifications via Gmail. Due to the multi-role nature of startups, I tend to tackle a lot of the infrastructure and DevOps related tooling and management in addition to my more standard development work. To help monitor all of the various services and to experiment with Golang, I&rsquo;ve created an easy-to-use CLI application that can send an email if an endpoint returns a non 200 status code.'>
+<meta property='og:url' content='https://christopherdiehl.github.io/posts/isalive/'>
 <meta property='og:site_name' content='Christopher Diehl&#39;s blog'>
-<meta property='og:type' content='website'><meta property='og:image' content='https://www.gravatar.com/avatar/d4d89f2829ede1e53ab179550c2a472f?s=256'><meta property='article:section' content='Categories'><meta property='og:updated_time' content='2019-02-22T08:16:52-05:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@'><meta name='twitter:creator' content='@'>
-    <meta content="" name="keywords">
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/d4d89f2829ede1e53ab179550c2a472f?s=256'><meta property='article:section' content='Posts'><meta property='article:published_time' content='2019-02-22T08:16:52-05:00'/><meta property='article:modified_time' content='2019-02-22T08:16:52-05:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@'><meta name='twitter:creator' content='@'>
+    <meta content="golang , monitoring , cli" name="keywords">
 
     <link rel="stylesheet" href="https://christopherdiehl.github.io//css/style.css" /><link rel='stylesheet' href='/css/custom.css'></head>
 
@@ -55,25 +55,48 @@
 
 <section class="section">
   <div class="container">
+    <div class="subtitle is-6 is-pulled-right">
+      
+    </div>
+    <h2 class="subtitle is-6">February 22, 2019</h2>
+    <h1 class="title">Isalive</h1>
+    
+    <div class="content">
+      
+
+<h1 id="building-a-http-monitoring-cli-appliclation-with-notifications-via-gmail">Building a HTTP monitoring cli appliclation with notifications via Gmail.</h1>
+
+<p>Due to the multi-role nature of startups, I tend to tackle a lot of the infrastructure and DevOps related tooling and management in addition to my more standard development work. To help monitor all of the various services and to experiment with Golang, I&rsquo;ve created an <a href="https://github.com/christopherdiehl/isAlive">easy-to-use CLI application</a> that can send an email if an endpoint returns a non 200 status code. Feel free to checkout the source code and let me know your thoughts!</p>
+
+<p>Sample usage below:</p>
+
+<pre><code>usage: isalive [&lt;flags&gt;] &lt;command&gt; [&lt;args&gt; ...]
+
+A command-line monitoring application.
+
+Flags:
+  --help  Show context-sensitive help (also try --help-long and --help-man).
+
+Commands:
+  help [&lt;command&gt;...]
+    Show help.
+
+  add &lt;endpoint&gt;
+    Add a new endpoint to monitoring.
+
+  remove &lt;endpoint&gt;
+    Add a new endpoint to monitoring.
+
+  scan [&lt;alert&gt;]
+    Scans the stored hosts
+</code></pre>
+
+      
+    </div>
     
   </div>
 </section>
-<section class="section">
-  <div class="container">
-    <nav class="level is-mobile">
-      <div class="level-left">
-        <div class="level-item">
-          
-        </div>
-      </div>
-      <div class="level-right is-marginless">
-        <div class="level-item">
-          
-        </div>
-      </div>
-    </nav>
-  </div>
-</section>
+
 
 <section class="section">
   <div class="container has-text-centered">
@@ -95,4 +118,3 @@ ga('send', 'pageview');
 
 </body>
 </html>
-

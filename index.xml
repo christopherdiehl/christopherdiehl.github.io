@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Fri, 09 Nov 2018 09:57:27 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 22 Feb 2019 08:16:52 -0500</lastBuildDate>
     
 	<atom:link href="https://christopherdiehl.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Isalive</title>
+      <link>https://christopherdiehl.github.io/posts/isalive/</link>
+      <pubDate>Fri, 22 Feb 2019 08:16:52 -0500</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/isalive/</guid>
+      <description>Building a HTTP monitoring cli appliclation with notifications via Gmail. Due to the multi-role nature of startups, I tend to tackle a lot of the infrastructure and DevOps related tooling and management in addition to my more standard development work. To help monitor all of the various services and to experiment with Golang, I&amp;rsquo;ve created an easy-to-use CLI application that can send an email if an endpoint returns a non 200 status code.</description>
+    </item>
     
     <item>
       <title>Issa Vibe</title>
