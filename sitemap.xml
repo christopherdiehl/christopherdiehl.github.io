@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://christopherdiehl.github.io/posts/cloudspeed/</loc>
+    <lastmod>2019-05-04T08:29:06-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://christopherdiehl.github.io/posts/isalive/</loc>
     <lastmod>2019-02-22T08:16:52-05:00</lastmod>
   </url>
@@ -39,13 +44,13 @@
   
   <url>
     <loc>https://christopherdiehl.github.io/</loc>
-    <lastmod>2019-02-22T08:16:52-05:00</lastmod>
+    <lastmod>2019-05-04T08:29:06-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christopherdiehl.github.io/posts/</loc>
-    <lastmod>2019-02-22T08:16:52-05:00</lastmod>
+    <lastmod>2019-05-04T08:29:06-04:00</lastmod>
     <priority>0</priority>
   </url>
   

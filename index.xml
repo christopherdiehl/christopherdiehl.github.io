@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Fri, 22 Feb 2019 08:16:52 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 04 May 2019 08:29:06 -0400</lastBuildDate>
     
 	<atom:link href="https://christopherdiehl.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bringing some more speed to cloudformation</title>
+      <link>https://christopherdiehl.github.io/posts/cloudspeed/</link>
+      <pubDate>Sat, 04 May 2019 08:29:06 -0400</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/cloudspeed/</guid>
+      <description>After working extensively with AWS Cloudformation the last couple of months, I have noticed that template debugging and creation is not overly fast. To help ease development burden, I have created cloudspeed which aims to bring some more speed to cloudformation by introducing automatic creation/deletion of templates in addition to event traces on creation failure.
+To help get started with cloudspeed, I have provided a high level overview of cloudformation and infrastructure as code to outline what the service does and why it is helpful.</description>
+    </item>
     
     <item>
       <title>Isalive</title>
