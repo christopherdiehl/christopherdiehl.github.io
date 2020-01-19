@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Configuration on Christopher Diehl&#39;s blog</title>
+    <link>https://christopherdiehl.github.io/tags/configuration/</link>
+    <description>Recent content in Configuration on Christopher Diehl&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Fri, 17 Aug 2018 14:16:20 +0000</lastBuildDate>
+    
+	<atom:link href="https://christopherdiehl.github.io/tags/configuration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Dynamically passing in ENV vars to Lambda functions created by Cloudformation</title>
+      <link>https://christopherdiehl.github.io/posts/lambda-sam-env-vars/</link>
+      <pubDate>Fri, 17 Aug 2018 14:16:20 +0000</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/lambda-sam-env-vars/</guid>
+      <description>Background I&amp;rsquo;m going to assume you have experience with Lambda, AWS-SAM, and Cloudformation. To start with you should already have a template.yml for Cloudformation that looks alot like this:
+--- AWSTemplateFormatVersion: &#39;2010-09-09&#39; Transform: AWS::Serverless-2016-10-31 Description: AWS template Resources: ApiGatewayApi: Type: AWS::Serverless::Api Properties: StageName: Prod # Allows www.example.com to call these APIs # SAM will automatically add AllowMethods with a list of methods for this API Cors: &amp;quot;&#39;www.example.com&#39;&amp;quot; DefinitionBody: &#39;Fn::Transform&#39;: Name: &#39;AWS::Include&#39; # Replace &amp;lt;bucket&amp;gt; with your bucket name Parameters: Location: s3://&amp;lt;bucket&amp;gt;/swagger.</description>
+    </item>
+    
+  </channel>
+</rss>

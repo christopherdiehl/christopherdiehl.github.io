@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Browser on Christopher Diehl&#39;s blog</title>
+    <link>https://christopherdiehl.github.io/tags/browser/</link>
+    <description>Recent content in Browser on Christopher Diehl&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
+    <lastBuildDate>Sun, 19 Jan 2020 14:16:20 +0000</lastBuildDate>
+    
+	<atom:link href="https://christopherdiehl.github.io/tags/browser/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Browser Fingerprinting</title>
+      <link>https://christopherdiehl.github.io/posts/browser-fingerprinting/</link>
+      <pubDate>Sun, 19 Jan 2020 14:16:20 +0000</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/browser-fingerprinting/</guid>
+      <description>With great power comes great responsibility. Browser fingerprinting is a great power, but unfortunately is not often used responsibly. In fact, companies routinely use the technique to identify with 99% accuracy who the individual browsing their site is. This allows tailored ads to a specific demographic. Perhaps the best use case for browser fingerprinting comes in the form of analytics for site developers. If the developers know what devices and browsers are frequenting the site, they can improve and test for those specific browsers and screen sizes.</description>
+    </item>
+    
+  </channel>
+</rss>

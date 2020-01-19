@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://christopherdiehl.github.io/posts/browser-fingerprinting/</loc>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://christopherdiehl.github.io/posts/cloudspeed/</loc>
     <lastmod>2019-05-04T08:29:06-04:00</lastmod>
   </url>
@@ -38,24 +43,62 @@
   </url>
   
   <url>
-    <loc>https://christopherdiehl.github.io/categories/</loc>
+    <loc>https://christopherdiehl.github.io/tags/browser/</loc>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christopherdiehl.github.io/</loc>
-    <lastmod>2019-05-04T08:29:06-04:00</lastmod>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://christopherdiehl.github.io/tags/configuration/</loc>
+    <lastmod>2018-08-17T14:16:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://christopherdiehl.github.io/tags/fingerprinting/</loc>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://christopherdiehl.github.io/tags/infrastructure/</loc>
+    <lastmod>2018-08-17T14:16:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://christopherdiehl.github.io/tags/lambda/</loc>
+    <lastmod>2018-08-17T14:16:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christopherdiehl.github.io/posts/</loc>
-    <lastmod>2019-05-04T08:29:06-04:00</lastmod>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://christopherdiehl.github.io/tags/privacy/</loc>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://christopherdiehl.github.io/tags/security/</loc>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://christopherdiehl.github.io/tags/</loc>
+    <lastmod>2020-01-19T14:16:20+00:00</lastmod>
     <priority>0</priority>
   </url>
   
