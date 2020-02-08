@@ -18,7 +18,7 @@
       <pubDate>Thu, 23 Jan 2020 14:16:20 +0000</pubDate>
       
       <guid>https://christopherdiehl.github.io/posts/sql-optimizations/</guid>
-      <description>SQL Optimizations on a Raleigh Crime Dataset. In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&amp;rsquo;t promise the same result for anyone following this article, I do outline some of my learnings below using the most recent Raleigh Crime dataset.</description>
+      <description>Background I&amp;rsquo;ve had the pleasure of working on a lot of different projects and while the language may have ranged from Java to Golang, most have communicated with a database using SQL. In the beginning of my career, I viewed SQL as a unfortunate neccessity, Professor Imilienski at Rutgers changed my opinion. His project and lectures showed us how to view the and analyze datasets in a relational database, and how SQL can be used to gather some pretty powerful insights.</description>
     </item>
     
   </channel>
