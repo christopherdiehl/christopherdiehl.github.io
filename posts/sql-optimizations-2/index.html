@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  lang="en" >
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" /> 
+    <title>Optimizing SQL queries on a Raleigh&#39;s crime dataset | Christopher Diehl&#39;s blog</title>
+     <meta property='og:title' content='Optimizing SQL queries on a Raleigh&#39;s crime dataset - Christopher Diehl&#39;s blog'>
+<meta property='og:description' content='This post builds upon the previous post. If you haven&rsquo;t checked it out already, please do so here In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizations of text field queries below using the most recent Raleigh Crime dataset and a straightforward ilike query.'>
+<meta property='og:url' content='https://christopherdiehl.github.io/posts/sql-optimizations-2/'>
+<meta property='og:site_name' content='Christopher Diehl&#39;s blog'>
+<meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/d4d89f2829ede1e53ab179550c2a472f?s=256'><meta property='article:section' content='Posts'><meta property='article:tag' content='sql'><meta property='article:tag' content='optimization'><meta property='article:tag' content='Raleigh'><meta property='article:published_time' content='2020-02-08T07:24:44-05:00'/><meta property='article:modified_time' content='2020-02-08T07:24:44-05:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@'><meta name='twitter:creator' content='@'>
+    <meta content="sql optimization , sql explain analyze , Raleigh crime data" name="keywords">
+
+    <link rel="stylesheet" href="https://christopherdiehl.github.io//css/style.css" /><link rel='stylesheet' href='/css/custom.css'></head>
+
+<body>
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://christopherdiehl.github.io/"><h1 class="title is-4">Christopher Diehl&#39;s blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile"><a class="level-item" href='mailto:diehl.chris24@gmail.com' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+    <polyline points="22,6 12,13 2,6"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://github.com/christopherdiehl' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    
+  </svg></i>
+            </span>
+          </a><a class="level-item" href='https://linkedin.com/in/christopher-diehl-73a44795' target='_blank' rel='noopener'>
+            <span class="icon">
+              <i class><svg viewbox='0 0 24 24' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' aria-hidden='true'>
+    
+    <path stroke-width="1.8" d="m5.839218,4.101561c0,1.211972 -0.974141,2.194011 -2.176459,2.194011s-2.176459,-0.982039 -2.176459,-2.194011c0,-1.211094 0.974141,-2.194011 2.176459,-2.194011s2.176459,0.982917 2.176459,2.194011zm0.017552,3.94922l-4.388022,0l0,14.04167l4.388022,0l0,-14.04167zm7.005038,0l-4.359939,0l0,14.04167l4.360816,0l0,-7.370999c0,-4.098413 5.291077,-4.433657 5.291077,0l0,7.370999l4.377491,0l0,-8.89101c0,-6.915523 -7.829986,-6.66365 -9.669445,-3.259423l0,-1.891237z"/>
+    
+  </svg></i>
+            </span>
+          </a></nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="subtitle is-6 is-pulled-right">
+      
+      
+<a class="subtitle is-6" href="/tags/sql">#sql</a>
+
+
+
+  
+  | <a class="subtitle is-6" href="/tags/optimization">#optimization</a>
+  
+  | <a class="subtitle is-6" href="/tags/raleigh">#Raleigh</a>
+  
+
+      
+    </div>
+    <h2 class="subtitle is-6">February 8, 2020</h2>
+    <h1 class="title">Optimizing SQL queries on a Raleigh&#39;s crime dataset</h1>
+    
+    <div class="content">
+      
+
+<h4 id="this-post-builds-upon-the-previous-post-if-you-haven-t-checked-it-out-already-please-do-so-here-https-christopherdiehl-github-io-posts-sql-optimizations">This post builds upon the previous post. If you haven&rsquo;t checked it out already, please do so <a href="https://christopherdiehl.github.io/posts/sql-optimizations/">here</a></h4>
+
+<p>In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizations of text field queries below using the most recent Raleigh Crime dataset and a straightforward ilike query.</p>
+
+<hr />
+
+<h2 id="the-query">The Query</h2>
+
+<p>Imagine a situation where we frequently want to query on the crime_description column. Assume want to see how many crimes have case insensitive keywords anywhere in the description. For example, we want to find how many crimes have the term other in the crime description so we can start determining how many &ldquo;uncommon&rdquo; incidents occur in Raleigh.</p>
+
+<p>To start, we create the following SQL:</p>
+
+<p><code>SELECT * FROM raleigh_police_incidents WHERE crime_description ilike '%other%';</code></p>
+
+<p><img src="/ilike-query-v2.png" alt="ILIKE query on dataset v2" /></p>
+
+<p>This works beautifully, however there is one easy performance tweak we can make. By using <code>LOWER</code> on the crime_description and changing the <code>ilike</code> to a <code>like</code>, we can achieve slightly better performance. Please note the performance gains should be greater on larger datasets.</p>
+
+<p><code>SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_description) like '%other%';</code></p>
+
+<p><img src="/like-query-v2.png" alt="LIKE query on dataset v2" /></p>
+
+<hr />
+
+<h3 id="indexes">Indexes</h3>
+
+<blockquote>
+<p>Indexes are a common way to enhance database performance. An index allows the database server to find and retrieve specific rows much faster than it could do without an index. But indexes also add overhead to the database system as a whole, so they should be used sensibly. - <a href="https://www.postgresql.org/docs/9.1/indexes.html">Postgres Documentation</a></p>
+</blockquote>
+
+<p>If we do queries on the crime_description field frequently, it might make sense to <a href="https://www.postgresql.org/docs/9.1/sql-createindex.html">add an index</a>. For a quick primer on different index types, feel free to checkout <a href="https://www.postgresql.org/docs/9.5/indexes-types.html">this</a>.</p>
+
+<p>By default, Postgres will create a B-Tree index, let&rsquo;s try that out and see what happens.</p>
+
+<p><code>CREATE INDEX crime_description ON raleigh_police_incidents(crime_description);</code></p>
+
+<p>Retrying the previous queries with <code>EXPLAIN ANALYZE</code> shows that absolutely nothing has changed. Reviewing the <a href="https://www.postgresql.org/docs/9.5/indexes-types.html">documentation</a> shows us:
+&gt; The optimizer can also use a B-tree index for queries involving the pattern matching operators LIKE and ~ if the pattern is a constant and is anchored to the beginning of the string — for example, col LIKE &lsquo;foo%&rsquo; or col ~ &lsquo;^foo&rsquo;, but not col LIKE &lsquo;%bar&rsquo;. However, if your database does not use the C locale you will need to create the index with a special operator class to support indexing of pattern-matching queries; see Section 11.10 below. It is also possible to use B-tree indexes for ILIKE and ~*, but only if the pattern starts with non-alphabetic characters, i.e., characters that are not affected by upper/lower case conversion.</p>
+
+<p>Let&rsquo;s see if there is any speed improvement by using a wildcard <code>%</code> just at the end of <code>other</code> like so:</p>
+
+<p><code>EXPLAIN ANALYZE SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_type) like 'other%';</code></p>
+
+<p><img src="/like-other-with-index.png" alt="like query on crime description with index" /></p>
+
+<p>Followed by <code>DROP INDEX crime_description;</code> and rerunning the same query shows . .  . . Absolutely nothing has changed.</p>
+
+<p><img src="/like-other-without-index.png" alt="like query on crime description without index" /></p>
+
+<hr />
+
+<h3 id="how-dare-postgres-not-use-our-index">How dare Postgres not use our index!</h3>
+
+<p>While indexes can be very useful, they aren&rsquo;t useful at all for our situation. One potential reason for this is that Postgres plans to visit most of the rows anyway, thus making it <a href="https://stackoverflow.com/questions/34537096/postgres-not-using-index-when-index-scan-is-much-better-option">more effective</a> to perform a parallel sequential scan. Either way, we could always force the planner to use our index by using: <code>SET enable_seqscan = off</code>, but beware that by doing so you walk a <em>very</em> dangerous path.</p>
+
+<hr />
+
+<h3 id="solutions">Solutions</h3>
+
+<p>In my experience, performing a <code>%${searchTerm}%</code> query on a dataset isn&rsquo;t overly uncommon, so what can we do to optimize for it.</p>
+
+<ol>
+<li>Alter how data is stored. If we find ourselves frequently querying the data for keywords, we could either add a keyword JSON array, start storing the keyword at the beginning of the text in order to benefit from a B-TREE index, or if possible use an additional column that can queried without the wildcard operator.</li>
+<li>Use the popular <a href="https://www.postgresql.org/docs/9.6/pgtrgm.html">pg_trgm</a> module to provide better performance for <code>like %${searchTerm}%</code> queries. Specifically, this module provides GIN and GIST indexes which can be described as:</li>
+</ol>
+
+<blockquote>
+<p>The pg_trgm module provides GiST and GIN index operator classes that allow you to create an index over a text column for the purpose of very fast similarity searches. These index types support the above-described similarity operators, and additionally support trigram-based index searches for LIKE, ILIKE, ~ and ~* queries. (These indexes do not support equality nor simple comparison operators, so you may need a regular B-tree index too.)</p>
+</blockquote>
+
+<hr />
+
+<h3 id="pg-trgm">PG_TRGM</h3>
+
+<p>To show just how helpful pg_tgrm can be, let&rsquo;s set it up and see the difference. Write <code>CREATE EXTENSION pg_trgm;</code> in psql to get started.</p>
+
+<p>Next let&rsquo;s create a GIN index, using:</p>
+
+<pre><code>CREATE INDEX crime_description_gin ON raleigh_police_incidents USING GIN (crime_description gin_trgm_ops);
+
+SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_type) like '%other%';
+</code></pre>
+
+<p>Looking at the picture below, you should notice that the query went from ~1500ms to ~75ms! A huge improvement!</p>
+
+<p><img src="/improved-like-query.png" alt="improved like query using a GIN index" /></p>
+
+<hr />
+
+<h3 id="future-reading">Future reading</h3>
+
+<p>If you want to read more about Postgres query plans or the different scanning methods available please checkout the following resources:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/13441334/when-to-add-an-index-on-a-sql-table-field-mysql">https://stackoverflow.com/questions/13441334/when-to-add-an-index-on-a-sql-table-field-mysql</a></li>
+<li><a href="https://www.postgresql.org/docs/11/planner-optimizer.html">https://www.postgresql.org/docs/11/planner-optimizer.html</a></li>
+<li><a href="https://severalnines.com/database-blog/overview-various-scan-methods-postgresql">https://severalnines.com/database-blog/overview-various-scan-methods-postgresql</a></li>
+<li><a href="https://www.postgresql.org/docs/8.1/performance-tips.html">https://www.postgresql.org/docs/8.1/performance-tips.html</a></li>
+<li><a href="https://dba.stackexchange.com/questions/119386/understanding-bitmap-heap-scan-and-bitmap-index-scan">https://dba.stackexchange.com/questions/119386/understanding-bitmap-heap-scan-and-bitmap-index-scan</a></li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; <a href="https://github.com/christopherdiehl">Christopher Diehl</a> 2018</p>
+    
+      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    
+  </div>
+</section>
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-117461087-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+</body>
+</html>

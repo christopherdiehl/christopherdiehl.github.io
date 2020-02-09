@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Thu, 23 Jan 2020 14:16:20 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 08 Feb 2020 07:24:44 -0500</lastBuildDate>
     
 	<atom:link href="https://christopherdiehl.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Optimizing SQL queries on a Raleigh&#39;s crime dataset</title>
+      <link>https://christopherdiehl.github.io/posts/sql-optimizations-2/</link>
+      <pubDate>Sat, 08 Feb 2020 07:24:44 -0500</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/sql-optimizations-2/</guid>
+      <description>This post builds upon the previous post. If you haven&amp;rsquo;t checked it out already, please do so here In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&amp;rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizations of text field queries below using the most recent Raleigh Crime dataset and a straightforward ilike query.</description>
+    </item>
     
     <item>
       <title>Examining Raleigh&#39;s crime data using SQL</title>
