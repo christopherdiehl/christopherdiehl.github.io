@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-    <title>Optimizing SQL queries on a Raleigh&#39;s crime dataset | Christopher Diehl&#39;s blog</title>
-     <meta property='og:title' content='Optimizing SQL queries on a Raleigh&#39;s crime dataset - Christopher Diehl&#39;s blog'>
-<meta property='og:description' content='This post builds upon the previous post. If you haven&rsquo;t checked it out already, please do so here In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizations of text field queries below using the most recent Raleigh Crime dataset and a straightforward ilike query.'>
+    <title>Optimizing text search SQL queries on a Raleigh crime dataset | Christopher Diehl&#39;s blog</title>
+     <meta property='og:title' content='Optimizing text search SQL queries on a Raleigh crime dataset - Christopher Diehl&#39;s blog'>
+<meta property='og:description' content='This post builds upon the previous post. If you haven&rsquo;t checked it out already, please do so here In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizing for queries on text columns below using the most recent Raleigh Crime dataset.'>
 <meta property='og:url' content='https://christopherdiehl.github.io/posts/sql-optimizations-2/'>
 <meta property='og:site_name' content='Christopher Diehl&#39;s blog'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/d4d89f2829ede1e53ab179550c2a472f?s=256'><meta property='article:section' content='Posts'><meta property='article:tag' content='sql'><meta property='article:tag' content='optimization'><meta property='article:tag' content='Raleigh'><meta property='article:published_time' content='2020-02-08T07:24:44-05:00'/><meta property='article:modified_time' content='2020-02-08T07:24:44-05:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@'><meta name='twitter:creator' content='@'>
@@ -71,20 +71,20 @@
       
     </div>
     <h2 class="subtitle is-6">February 8, 2020</h2>
-    <h1 class="title">Optimizing SQL queries on a Raleigh&#39;s crime dataset</h1>
+    <h1 class="title">Optimizing text search SQL queries on a Raleigh crime dataset</h1>
     
     <div class="content">
       
 
 <h4 id="this-post-builds-upon-the-previous-post-if-you-haven-t-checked-it-out-already-please-do-so-here-https-christopherdiehl-github-io-posts-sql-optimizations">This post builds upon the previous post. If you haven&rsquo;t checked it out already, please do so <a href="https://christopherdiehl.github.io/posts/sql-optimizations/">here</a></h4>
 
-<p>In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizations of text field queries below using the most recent Raleigh Crime dataset and a straightforward ilike query.</p>
+<p>In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizing for queries on text columns below using the most recent Raleigh Crime dataset.</p>
 
 <hr />
 
 <h2 id="the-query">The Query</h2>
 
-<p>Imagine a situation where we frequently want to query on the crime_description column. Assume want to see how many crimes have case insensitive keywords anywhere in the description. For example, we want to find how many crimes have the term other in the crime description so we can start determining how many &ldquo;uncommon&rdquo; incidents occur in Raleigh.</p>
+<p>Imagine a situation where we want to frequently see how many crimes have case insensitive keywords anywhere in the description which is the <code>crime_description</code> column in our table. For example, we want to find how many crimes have the term <em>other</em> in the crime description so we can start determining how many &ldquo;uncommon&rdquo; incidents occur in Raleigh.</p>
 
 <p>To start, we create the following SQL:</p>
 
@@ -92,7 +92,7 @@
 
 <p><img src="/ilike-query-v2.png" alt="ILIKE query on dataset v2" /></p>
 
-<p>This works beautifully, however there is one easy performance tweak we can make. By using <code>LOWER</code> on the crime_description and changing the <code>ilike</code> to a <code>like</code>, we can achieve slightly better performance. Please note the performance gains should be greater on larger datasets.</p>
+<p>This works beautifully, however there is one easy performance tweak we can make. By using <code>LOWER</code> on the crime_description and changing the <code>ilike</code> to a <code>like</code>, we can <em>usually</em> achieve slightly better performance.</p>
 
 <p><code>SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_description) like '%other%';</code></p>
 
@@ -103,19 +103,22 @@
 <h3 id="indexes">Indexes</h3>
 
 <blockquote>
-<p>Indexes are a common way to enhance database performance. An index allows the database server to find and retrieve specific rows much faster than it could do without an index. But indexes also add overhead to the database system as a whole, so they should be used sensibly. - <a href="https://www.postgresql.org/docs/9.1/indexes.html">Postgres Documentation</a></p>
+<p>Indexes are a common way to enhance database performance. An index allows the database server to find and retrieve specific rows much faster than it could do without an index. But indexes also add overhead to the database system as a whole, so they should be used sensibly. - <a href="https://www.postgresql.org/docs/11/indexes.html">Postgres Documentation</a></p>
 </blockquote>
 
-<p>If we do queries on the crime_description field frequently, it might make sense to <a href="https://www.postgresql.org/docs/9.1/sql-createindex.html">add an index</a>. For a quick primer on different index types, feel free to checkout <a href="https://www.postgresql.org/docs/9.5/indexes-types.html">this</a>.</p>
+<p>If we do queries on the crime_description field frequently, it might make sense to <a href="https://www.postgresql.org/docs/11/sql-createindex.html">add an index</a>. For a quick primer on different index types, feel free to checkout the postgres <a href="https://www.postgresql.org/docs/11/indexes-types.html">documentation</a>.</p>
 
 <p>By default, Postgres will create a B-Tree index, let&rsquo;s try that out and see what happens.</p>
 
 <p><code>CREATE INDEX crime_description ON raleigh_police_incidents(crime_description);</code></p>
 
-<p>Retrying the previous queries with <code>EXPLAIN ANALYZE</code> shows that absolutely nothing has changed. Reviewing the <a href="https://www.postgresql.org/docs/9.5/indexes-types.html">documentation</a> shows us:
-&gt; The optimizer can also use a B-tree index for queries involving the pattern matching operators LIKE and ~ if the pattern is a constant and is anchored to the beginning of the string — for example, col LIKE &lsquo;foo%&rsquo; or col ~ &lsquo;^foo&rsquo;, but not col LIKE &lsquo;%bar&rsquo;. However, if your database does not use the C locale you will need to create the index with a special operator class to support indexing of pattern-matching queries; see Section 11.10 below. It is also possible to use B-tree indexes for ILIKE and ~*, but only if the pattern starts with non-alphabetic characters, i.e., characters that are not affected by upper/lower case conversion.</p>
+<p>Retrying the previous queries with <code>EXPLAIN ANALYZE</code> shows that absolutely <em>nothing has changed</em>. Reviewing the <a href="https://www.postgresql.org/docs/11/indexes-types.html">documentation</a> shows us:</p>
 
-<p>Let&rsquo;s see if there is any speed improvement by using a wildcard <code>%</code> just at the end of <code>other</code> like so:</p>
+<blockquote>
+<p>The optimizer can also use a B-tree index for queries involving the pattern matching operators LIKE and ~ if the pattern is a constant and is anchored to the beginning of the string — for example, col LIKE &lsquo;foo%&rsquo; or col ~ &lsquo;^foo&rsquo;, but not col LIKE &lsquo;%bar&rsquo;. However, if your database does not use the C locale you will need to create the index with a special operator class to support indexing of pattern-matching queries; see Section 11.10 below. It is also possible to use B-tree indexes for ILIKE and ~*, but only if the pattern starts with non-alphabetic characters, i.e., characters that are not affected by upper/lower case conversion.</p>
+</blockquote>
+
+<p>So it appears that the query speed wasn&rsquo;t improved because we are using a wildcard at the beginning and end of our search term. Let&rsquo;s see if there is any speed improvement by using a wildcard <code>%</code> just at the end of <code>other</code> like so:</p>
 
 <p><code>EXPLAIN ANALYZE SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_type) like 'other%';</code></p>
 
@@ -135,11 +138,11 @@
 
 <h3 id="solutions">Solutions</h3>
 
-<p>In my experience, performing a <code>%${searchTerm}%</code> query on a dataset isn&rsquo;t overly uncommon, so what can we do to optimize for it.</p>
+<p>So far, we&rsquo;ve tried a few different potential solutions but haven&rsquo;t really increased our query speed any significant amount. Let&rsquo;s see what else we can do to optimize for our use case <code>%${searchTerm}%</code>.</p>
 
 <ol>
 <li>Alter how data is stored. If we find ourselves frequently querying the data for keywords, we could either add a keyword JSON array, start storing the keyword at the beginning of the text in order to benefit from a B-TREE index, or if possible use an additional column that can queried without the wildcard operator.</li>
-<li>Use the popular <a href="https://www.postgresql.org/docs/9.6/pgtrgm.html">pg_trgm</a> module to provide better performance for <code>like %${searchTerm}%</code> queries. Specifically, this module provides GIN and GIST indexes which can be described as:</li>
+<li>Use the popular <a href="https://www.postgresql.org/docs/11/pgtrgm.html">pg_trgm</a> module to provide better performance for <code>like %${searchTerm}%</code> queries. Specifically, this module provides GIN and GIST indexes which can be described as:</li>
 </ol>
 
 <blockquote>
@@ -159,11 +162,11 @@
 SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_type) like '%other%';
 </code></pre>
 
-<p>Looking at the picture below, you should notice that the query went from ~1500ms to ~75ms! A huge improvement!</p>
+<p>Looking at the picture below, you should notice that the query went from ~1500ms to ~75ms! A huge improvement and exactly what we are looking for!</p>
 
 <p><img src="/improved-like-query.png" alt="improved like query using a GIN index" /></p>
 
-<hr />
+<h2 id="while-pg-trgm-is-helpful-for-wildcard-queries-it-s-still-important-to-use-a-b-tree-index-if-you-plan-on-frequently-querying-the-text-column-with-equality-or-simple-comparison-operators-as-gin-indexes">While <em>pg_trgm</em> is helpful for wildcard queries, it&rsquo;s still important to use a B-Tree index if you plan on frequently querying the text column with equality or simple comparison operators as GIN indexes.</h2>
 
 <h3 id="future-reading">Future reading</h3>
 
@@ -171,9 +174,9 @@ SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_type) like '%other%';
 
 <ul>
 <li><a href="https://stackoverflow.com/questions/13441334/when-to-add-an-index-on-a-sql-table-field-mysql">https://stackoverflow.com/questions/13441334/when-to-add-an-index-on-a-sql-table-field-mysql</a></li>
-<li><a href="https://www.postgresql.org/docs/11/planner-optimizer.html">https://www.postgresql.org/docs/11/planner-optimizer.html</a></li>
+<li><a href="https://www.postgresql.org/docs/11planner-optimizer.html">https://www.postgresql.org/docs/11planner-optimizer.html</a></li>
 <li><a href="https://severalnines.com/database-blog/overview-various-scan-methods-postgresql">https://severalnines.com/database-blog/overview-various-scan-methods-postgresql</a></li>
-<li><a href="https://www.postgresql.org/docs/8.1/performance-tips.html">https://www.postgresql.org/docs/8.1/performance-tips.html</a></li>
+<li><a href="https://www.postgresql.org/docs/11/performance-tips.html">https://www.postgresql.org/docs/11/performance-tips.html</a></li>
 <li><a href="https://dba.stackexchange.com/questions/119386/understanding-bitmap-heap-scan-and-bitmap-index-scan">https://dba.stackexchange.com/questions/119386/understanding-bitmap-heap-scan-and-bitmap-index-scan</a></li>
 </ul>
 
