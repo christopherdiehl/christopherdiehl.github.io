@@ -6,11 +6,20 @@
     <description>Recent content on Christopher Diehl&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2018</copyright>
-    <lastBuildDate>Sat, 08 Feb 2020 07:24:44 -0500</lastBuildDate>
+    <copyright>&amp;copy; &lt;a href=&#34;https://github.com/christopherdiehl&#34;&gt;Christopher Diehl&lt;/a&gt; 2021</copyright>
+    <lastBuildDate>Sat, 27 Nov 2021 08:02:46 -0500</lastBuildDate>
     
 	<atom:link href="https://christopherdiehl.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Dots Limited</title>
+      <link>https://christopherdiehl.github.io/posts/dots-limited/</link>
+      <pubDate>Sat, 27 Nov 2021 08:02:46 -0500</pubDate>
+      
+      <guid>https://christopherdiehl.github.io/posts/dots-limited/</guid>
+      <description>Like most of the world, I&amp;rsquo;ve become more interested in NFTs over the past few months. From billion dollar behemoths like BAYC to new entrants like Bushidos the space is booming and shows no time of slowing down in the immediate future. Realizing the growth potential in the space, I decided to sit down and make some NFTs of my own. Only one problem presented itself - how do I make the JPEGs to mint?</description>
+    </item>
     
     <item>
       <title>Optimizing text search SQL queries on a Raleigh crime dataset</title>
