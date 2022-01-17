@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-    <title>Optimizing text search SQL queries on a Raleigh crime dataset | Christopher Diehl&#39;s blog</title>
-     <meta property='og:title' content='Optimizing text search SQL queries on a Raleigh crime dataset - Christopher Diehl&#39;s blog'>
+    <title>Optimizing text search SQL queries on a Raleigh crime dataset | Christopher Diehl</title>
+     <meta property='og:title' content='Optimizing text search SQL queries on a Raleigh crime dataset - Christopher Diehl'>
 <meta property='og:description' content='This post builds upon the previous post. If you haven&rsquo;t checked it out already, please do so here In my opinion, SQL is easy to get working initially, but optimizing SQL is a whole different beast. Thankfully, I recently had the chance to optimize a whole bunch of SQL for one of our critical platforms resulting in an over 300% reduction in execution time. While I can&rsquo;t promise the same result for anyone following this article, I do outline some of my learnings on optimizing for queries on text columns below using the most recent Raleigh Crime dataset.'>
 <meta property='og:url' content='https://christopherdiehl.github.io/posts/sql-optimizations-2/'>
-<meta property='og:site_name' content='Christopher Diehl&#39;s blog'>
+<meta property='og:site_name' content='Christopher Diehl'>
 <meta property='og:type' content='article'><meta property='og:image' content='https://www.gravatar.com/avatar/d4d89f2829ede1e53ab179550c2a472f?s=256'><meta property='article:section' content='Posts'><meta property='article:tag' content='sql'><meta property='article:tag' content='optimization'><meta property='article:tag' content='Raleigh'><meta property='article:published_time' content='2020-02-08T07:24:44-05:00'/><meta property='article:modified_time' content='2020-02-08T07:24:44-05:00'/><meta name='twitter:card' content='summary'><meta name='twitter:site' content='@'><meta name='twitter:creator' content='@'>
     <meta content="sql optimization , sql explain analyze , Raleigh crime data" name="keywords">
 
@@ -19,7 +19,7 @@
   <div class="container">
     <nav class="nav">
       <div class="nav-left">
-        <a class="nav-item" href="https://christopherdiehl.github.io/"><h1 class="title is-4">Christopher Diehl&#39;s blog</h1></a>
+        <a class="nav-item" href="https://christopherdiehl.github.io/"><h1 class="title is-4">Christopher Diehl</h1></a>
       </div>
       <div class="nav-right">
         <nav class="nav-item level is-mobile"><a class="level-item" href='mailto:diehl.chris24@gmail.com' target='_blank' rel='noopener'>
@@ -189,9 +189,7 @@ SELECT * FROM raleigh_police_incidents WHERE LOWER(crime_type) like '%other%';
 
 <section class="section">
   <div class="container has-text-centered">
-    <p>&copy; <a href="https://github.com/christopherdiehl">Christopher Diehl</a> 2021</p>
-    
-      <p>Powered by <a href="https://gohugo.io/">Hugo</a> &amp; <a href="https://github.com/ribice/kiss">Kiss</a>.</p>
+    <p>&copy; <a href="https://github.com/christopherdiehl">Christopher Diehl</a> 2022</p>
     
   </div>
 </section>
